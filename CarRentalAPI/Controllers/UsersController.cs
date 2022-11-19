@@ -8,7 +8,7 @@ namespace CarRentalAPI.Controllers
     public class UsersController : ControllerBase
     {
         [HttpGet]
-        [Route("getSpecificUser")]
+        [Route("GetSpecificUser")]
         public IActionResult GetSpecificUser(string name, string surname)
         {
             var resutlModel = UsersAdapter.GetSpecificUser(name, surname);
