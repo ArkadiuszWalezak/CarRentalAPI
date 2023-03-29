@@ -31,5 +31,21 @@ namespace CarRentalAPI.Adapters
             }
             return null;
         }
+        public static bool InsertNewBrand(string name)
+        {
+            using (var connection = DbConnection.Connection)
+            {
+                connection.Open();
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"INSERT INTO brands(name) VALUES (@name)";
+                    command.Parameters.AddWithValue("@name", name);
+                  
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    { }
+                }
+            }
+            return true;
+        }
     }
 }

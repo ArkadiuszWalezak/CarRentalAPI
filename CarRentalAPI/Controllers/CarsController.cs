@@ -32,5 +32,30 @@ namespace CarRentalAPI.Controllers
                 return BadRequest("Something gone wrong with input parameters!");
             }
         }
+
+        [HttpDelete]
+        [Route("DeleteCar")]
+        public IActionResult DeleteCar(DeleteCarModel deleteCar)
+        {
+            var car = CarsAdapter.DeleteCar(deleteCar);
+
+            if (!car)
+            {
+                return BadRequest($"Specyfic car: {deleteCar.registrationNumber} not exist.");
+            }
+
+            else
+            {
+                var result = CarsAdapter.DeleteCar(deleteCar);
+
+                if (result)
+                {
+                    return Ok($"Specific user: {deleteCar.registrationNumber} was delete.");
+                }
+            }
+            return BadRequest();
+        }
     }
+
+    
 }

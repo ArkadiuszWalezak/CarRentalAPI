@@ -63,9 +63,25 @@ namespace CarRentalAPI.Controllers
 
         [HttpDelete]
         [Route("DeleteType")]
-        public void Delete()
+        public IActionResult Delete(DeleteTypeModel deleteTypeModel)
         {
-        
+            var type = TypesAdapter.GetType(deleteTypeModel.nameTypeModel);
+
+            if (type == null)
+            {
+                return BadRequest($"Specyfic type: {deleteTypeModel.nameTypeModel} not exist");
+            }
+
+            else
+            {
+                var result = TypesAdapter.DeleteType(deleteTypeModel);
+
+                if (result)
+                {
+                    return Ok($"Specific type: {deleteTypeModel.nameTypeModel} was delete");
+                }
+            }
+            return BadRequest();
         }
     }
 }

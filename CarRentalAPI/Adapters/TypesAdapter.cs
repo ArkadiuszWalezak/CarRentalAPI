@@ -1,7 +1,9 @@
 ﻿using CarRentalAPI.Database;
 using CarRentalAPI.Models;
+using CarRentalAPI.Models.InputModels;
 using MySqlConnector;
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CarRentalAPI.Adapters
 {
@@ -69,6 +71,23 @@ namespace CarRentalAPI.Adapters
             }
 
             return true;
+        }
+
+        public static bool DeleteType(DeleteTypeModel type)
+        {
+            using(var connection = DbConnection.Connection)
+            {
+                connection.Open();
+                string st = $"DELETE FROM types WHERE name = '{type.nameTypeModel}'";
+                MySqlCommand command = new MySqlCommand(st, connection);
+                {
+                    command.ExecuteNonQuery();
+                    //using (MySqlDataReader reader = command.ExecuteReader()) //(ciekawe dlaczego wywala tutaj błąd)
+                    //{ }
+                }
+            }
+            return true;
+           
         }
     }
 }

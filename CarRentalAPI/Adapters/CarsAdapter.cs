@@ -1,6 +1,10 @@
 ﻿using CarRentalAPI.Database;
 using CarRentalAPI.Models;
+using CarRentalAPI.Models.InputModels;
+using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using System.Drawing;
+using System.Reflection;
 
 namespace CarRentalAPI.Adapters
 {
@@ -25,5 +29,29 @@ namespace CarRentalAPI.Adapters
             }
             return true;
         }
+        public static bool DeleteCar(DeleteCarModel car)
+        {
+            using (var connection = DbConnection.Connection)
+            {
+                connection.Open();
+                string st = $"DELETE FROM cars WHERE registrationNumber = '{car.registrationNumber}'";
+                MySqlCommand command = new MySqlCommand(st, connection);
+                {
+                    command.ExecuteNonQuery();
+                    //using (MySqlDataReader reader = command.ExecuteReader()) //(ciekawe dlaczego wywala tutaj błąd)
+                    //{ }
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+
     }
 }
